@@ -16,7 +16,6 @@
 		<java.version>17</java.version>
 		<serenity.version>3.6.21</serenity.version>
 		<junit.version>4.13.2</junit.version>
-		<start-class>com.baeldung.ssl.HttpsEnabledApplication</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
