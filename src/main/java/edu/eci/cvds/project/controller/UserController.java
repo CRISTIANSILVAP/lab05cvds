@@ -33,14 +33,12 @@ public class UserController {
     @Autowired
     private ServicesUser userService;
 
-
     /**
      * Obtiene la lista de todos los usuarios.
      *
      * @return Lista de usuarios.
      */
     @GetMapping("/all")
-    @Secured("ROLE_ADMIN")
     public List<User> getAllUsers() {
         return userService.getAllUser();
     }
@@ -88,7 +86,6 @@ public class UserController {
      * @return ResponseEntity con el usuario encontrado o un error si no se encuentra.
      */
     @GetMapping("/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_TEACHER"})
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         HashMap<String, String> response;
         try {
@@ -101,7 +98,6 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_TEACHER"})
     public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
         HashMap<String, String> response;
         try {
@@ -140,7 +136,6 @@ public class UserController {
      * @return ResponseEntity con la lista de reservas o un error en caso de fallo.
      */
     @GetMapping("/getReservations/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_TEACHER"})
     public ResponseEntity<?> getAllReservationByUserId(@PathVariable String id) {
         HashMap<String, String> response;
         try {
@@ -152,7 +147,6 @@ public class UserController {
         }
     }
     @GetMapping("/getReservationsByUsername/{username}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_TEACHER"})
     public ResponseEntity<?> getAllReservationByUsername(@PathVariable String username) {
         HashMap<String, String> response;
         try {
@@ -166,7 +160,6 @@ public class UserController {
     }
 
     @PatchMapping("/update")
-    @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_TEACHER"})
     public ResponseEntity<?> updateReservation(@RequestBody User user) {
         HashMap<String, Object> response = new HashMap<>();
         try {
