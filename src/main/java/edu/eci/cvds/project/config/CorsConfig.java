@@ -11,7 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Permite todas las rutas
-                .allowedOrigins("http://localhost3000") // URL de tu frontend
+                .allowedOrigins("https://red-rock-00cb7d11e.6.azurestaticapps.net") // URL de tu frontend
                 .allowedMethods("GET", "POST", "PUT", "DELETE","PATH") // Métodos permitidos o end points permitidos
                 .allowedHeaders("*"); // Permitir todos los encabezados
     }
