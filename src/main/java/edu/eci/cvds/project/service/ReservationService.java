@@ -357,7 +357,7 @@ public class ReservationService implements ServicesReservation {
             if(r.getStatus()==false){
                 User user = userRepository.findUserByUsername(r.getUsername());
                 Laboratory laboratory =laboratoryRepository.findLaboratoriesByName(r.getLaboratoryname());
-                reservationRepository.delete(r);
+                cancelReservation(r.getId());
                 userRepository.save(user);
                 laboratoryRepository.save(laboratory);
             }
