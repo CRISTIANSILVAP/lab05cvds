@@ -355,11 +355,7 @@ public class ReservationService implements ServicesReservation {
         List<Reservation> reservations = reservationRepository.findAll();
         for (Reservation r : reservations) {
             if(r.getStatus()==false){
-                User user = userRepository.findUserByUsername(r.getUsername());
-                Laboratory laboratory =laboratoryRepository.findLaboratoriesByName(r.getLaboratoryname());
                 cancelReservation(r.getId());
-                userRepository.save(user);
-                laboratoryRepository.save(laboratory);
             }
         }
     }
