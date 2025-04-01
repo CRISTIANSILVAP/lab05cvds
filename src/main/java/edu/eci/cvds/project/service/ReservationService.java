@@ -56,6 +56,9 @@ public class ReservationService implements ServicesReservation {
     @Transactional
     @Override
     public Reservation createReservation(ReservationDTO dto) {
+        if(!dto.getEndDateTime().isAfter(dto.getStartDateTime())){
+            throw new IllegalArgumentException("End date must be after start date");
+        }
         checkAllReservations();
         deleteOldReservations();
         if(!reserves(dto,dto.getStartDateTime(), dto.getEndDateTime())) {
