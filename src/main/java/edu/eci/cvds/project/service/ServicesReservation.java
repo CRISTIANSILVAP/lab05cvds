@@ -18,4 +18,6 @@ public interface ServicesReservation {
     Reservation updateReservation(Reservation reservation);
     void generateRandomReservations(int min, int max);
     void deleteAllReservations();
+    void deleteOldReservations();
+    void checkAllReservations();
 }

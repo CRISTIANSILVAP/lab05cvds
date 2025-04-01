@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Permite todas las rutas
                 .allowedOrigins("https://red-rock-00cb7d11e.6.azurestaticapps.net") // URL de tu frontend
-                .allowedMethods("GET", "POST", "PUT", "DELETE","PATH") // Métodos permitidos o end points permitidos
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // Métodos permitidos o end points permitidos
                 .allowedHeaders("*"); // Permitir todos los encabezados
     }
 }

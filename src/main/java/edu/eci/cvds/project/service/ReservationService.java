@@ -31,6 +31,7 @@ public class ReservationService implements ServicesReservation {
 
 
     private static final AtomicLong idCounter = new AtomicLong(0);
+
     @Autowired
     private UserService userService;
 
@@ -55,6 +56,8 @@ public class ReservationService implements ServicesReservation {
     @Transactional
     @Override
     public Reservation createReservation(ReservationDTO dto) {
+        checkAllReservations();
+        deleteOldReservations();
         Laboratory lab = laboratoryRepository.findLaboratoriesByName(dto.getLabName());
         User user = userRepository.findUserByUsername(dto.getUsername());
 
@@ -316,5 +319,29 @@ public class ReservationService implements ServicesReservation {
 
         laboratories.values().forEach(laboratoryRepository::save);
         users.values().forEach(userRepository::save);
+    }
+    @Override
+    public void checkAllReservations() {
+        // Obtener todas las reservas
+        List<Reservation> reservations = reservationRepository.findAll();
+        // Recorrer cada reserva
+        for (Reservation r : reservations) {
+            // Verificar si la fecha de finalización es anterior a la fecha y hora actuales
+            if (r.getEndDateTime().isBefore(LocalDateTime.now())) {
+                // Establecer el estado a false
+                r.setStatus(false);
+                // Guardar los cambios en la base de datos
+                reservationRepository.save(r);
+            }
+        }
+    }
+    @Override
+    public void deleteOldReservations(){
+        List<Reservation> reservations = reservationRepository.findAll();
+        for (Reservation r : reservations) {
+            if(r.getStatus()==false){
+                reservationRepository.delete(r);
+            }
+        }
     }
 }

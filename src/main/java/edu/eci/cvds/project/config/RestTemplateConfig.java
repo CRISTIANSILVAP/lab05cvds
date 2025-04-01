@@ -1,6 +1,7 @@
 package edu.eci.cvds.project.config;
 
 import org.apache.catalina.connector.Connector;
+import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -33,5 +34,4 @@ public class RestTemplateConfig {
             factory.addAdditionalTomcatConnectors(connector);
         };
     }
-
 }
