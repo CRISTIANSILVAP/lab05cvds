@@ -20,4 +20,5 @@ public interface ServicesReservation {
     void deleteAllReservations();
     void deleteOldReservations();
     void checkAllReservations();
+    boolean reserves(ReservationDTO dto,LocalDateTime dateStartTime,LocalDateTime dateEndTime);
 }

@@ -82,6 +82,19 @@ public class LaboratoryService implements ServicesLab {
         }
         return true;
     }
+    /**
+     * Método que verifica si un laboratorio está disponible para una nueva reserva en un intervalo de tiempo determinado.
+     *
+     * Este método recorre todas las reservas existentes del laboratorio especificado y verifica si alguna de ellas se solapa
+     * con el intervalo de tiempo solicitado para la nueva reserva. Si se encuentra un solapamiento, el método retornará `false`,
+     * indicando que el laboratorio no está disponible. Si no hay solapamientos, retornará `true`, indicando que el laboratorio
+     * está disponible para la nueva reserva.
+     *
+     * @param laboratory El laboratorio cuyo estado de disponibilidad se va a verificar.
+     * @param dateStartTime La fecha y hora de inicio de la nueva reserva.
+     * @param dateEndTime La fecha y hora de finalización de la nueva reserva.
+     * @return `true` si el laboratorio está disponible para la nueva reserva, `false` si ya hay solapamientos con reservas existentes.
+     */
     @Override
     public boolean isLaboratoriesAvailable(Laboratory laboratory,LocalDateTime dateStartTime,LocalDateTime dateEndTime) {
         for (Reservation reservation : laboratory.getReservations()) {
@@ -100,6 +113,14 @@ public class LaboratoryService implements ServicesLab {
         }
         return true;
     }
+    /**
+     * Método que elimina un laboratorio de la base de datos utilizando su ID.
+     *
+     * Este método recibe el ID de un laboratorio y lo elimina de la base de datos. La eliminación se realiza a través del
+     * repositorio de laboratorios.
+     *
+     * @param id El ID del laboratorio que se desea eliminar.
+     */
     @Override
     public void deleteLaboratory(String id) {
         laboratoryRepository.deleteLaboratoryById(id);

@@ -58,6 +58,10 @@ public class ReservationService implements ServicesReservation {
     public Reservation createReservation(ReservationDTO dto) {
         checkAllReservations();
         deleteOldReservations();
+        if(!reserves(dto,dto.getStartDateTime(), dto.getEndDateTime())) {
+            throw new IllegalArgumentException("Invalid reservation");
+        }
+
         Laboratory lab = laboratoryRepository.findLaboratoriesByName(dto.getLabName());
         User user = userRepository.findUserByUsername(dto.getUsername());
 
@@ -320,6 +324,11 @@ public class ReservationService implements ServicesReservation {
         laboratories.values().forEach(laboratoryRepository::save);
         users.values().forEach(userRepository::save);
     }
+    /**
+     * Método que verifica todas las reservas y actualiza su estado.
+     * Recorre todas las reservas y establece su estado a false si la fecha de finalización
+     * es anterior a la fecha y hora actuales.
+     */
     @Override
     public void checkAllReservations() {
         // Obtener todas las reservas
@@ -335,13 +344,53 @@ public class ReservationService implements ServicesReservation {
             }
         }
     }
+    /**
+     * Método que elimina las reservas antiguas cuyo estado es false.
+     * Recorre todas las reservas y elimina aquellas cuya fecha de finalización ya pasó
+     * y cuyo estado es false. Además, realiza actualizaciones en los registros del usuario
+     * y laboratorio asociados a la reserva eliminada.
+     */
     @Override
     public void deleteOldReservations(){
         List<Reservation> reservations = reservationRepository.findAll();
         for (Reservation r : reservations) {
             if(r.getStatus()==false){
+                User user = userRepository.findUserByUsername(r.getUsername());
+                Laboratory laboratory =laboratoryRepository.findLaboratoriesByName(r.getLaboratoryname());
                 reservationRepository.delete(r);
+                userRepository.save(user);
+                laboratoryRepository.save(laboratory);
             }
         }
     }
+    /**
+     * Método que verifica si se puede realizar una nueva reserva en un laboratorio durante un intervalo de tiempo específico.
+     *
+     * Este método verifica todas las reservas existentes para un laboratorio específico, comparando las fechas de inicio y finalización
+     * de las reservas existentes con las fechas de inicio y finalización solicitadas para la nueva reserva. Si alguna reserva existente
+     * se solapa con el intervalo solicitado, el método retornará `false`, indicando que no se puede realizar la nueva reserva.
+     * Si no hay solapamientos, el método retorna `true`, indicando que la nueva reserva es posible.
+     *
+     * @param dto Objeto `ReservationDTO` que contiene la información de la nueva reserva, incluyendo el nombre del laboratorio.
+     * @param dateStartTime La fecha y hora de inicio de la nueva reserva.
+     * @param dateEndTime La fecha y hora de finalización de la nueva reserva.
+     * @return `true` si la nueva reserva puede realizarse sin solaparse con otras reservas en el laboratorio; `false` en caso contrario.
+     */
+
+
+    @Override
+    public boolean reserves(ReservationDTO dto,LocalDateTime dateStartTime,LocalDateTime dateEndTime){
+        List<Reservation> reservations = reservationRepository.findAll();
+        for (Reservation r : reservations) {
+            if(r.getLaboratoryname()==dto.getLabName()){
+                LocalDateTime start=r.getStartDateTime();
+                LocalDateTime end=r.getEndDateTime();
+                if (!(dateEndTime.isBefore(start) || dateStartTime.isAfter(end))) {return false;}
+                if(start.isEqual(dateStartTime) && end.isEqual(dateEndTime)||dateStartTime.isAfter(start)&&dateEndTime.isBefore(end)) {return false;}
+            }
+        }
+        return true;
+    }
+
+
 }
