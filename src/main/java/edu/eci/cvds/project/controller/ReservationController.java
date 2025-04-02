@@ -37,7 +37,7 @@ public class ReservationController {
      * @return La reserva creada.
      */
     @PostMapping("/create")
-    public ResponseEntity<?> createReservation(@RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<?> createReservation(@RequestBody ReservationDTO reservationDTO,@RequestHeader("Authorization") String token) {
         try {
             Reservation reservation = reservationService.createReservation(reservationDTO);
             return ResponseEntity.ok(reservation);
