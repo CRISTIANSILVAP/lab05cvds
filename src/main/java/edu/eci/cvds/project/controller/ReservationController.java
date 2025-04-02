@@ -70,7 +70,7 @@ public class ReservationController {
      * @return ResponseEntity con estado 204 si se cancela correctamente o 404 si no se encuentra.
      */
     @DeleteMapping("cancel/{id}")
-    public ResponseEntity<Void> cancelReservation(@PathVariable String id) {
+    public ResponseEntity<Void> cancelReservation(@PathVariable String id,@RequestHeader("Authorization") String token) {
         boolean cancelled = reservationService.cancelReservation(id);
         if (cancelled) {
             return ResponseEntity.noContent().build();
