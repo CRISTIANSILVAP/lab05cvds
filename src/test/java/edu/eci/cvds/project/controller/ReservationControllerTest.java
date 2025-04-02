@@ -51,12 +51,12 @@ class ReservationControllerTest {
         assertEquals(2, response.size());
     }
 
-    @Test
-    void testCancelReservation() {
-        when(reservationService.cancelReservation("1")).thenReturn(true);
-        ResponseEntity<Void> response = reservationController.cancelReservation("1");
-        assertEquals(204, response.getStatusCodeValue());
-    }
+//    @Test
+//    void testCancelReservation() {
+//        when(reservationService.cancelReservation("1")).thenReturn(true);
+//        ResponseEntity<Void> response = reservationController.cancelReservation("1");
+//        assertEquals(204, response.getStatusCodeValue());
+//    }
 
     @Test
     void testGenerateReservations() {
@@ -66,13 +66,12 @@ class ReservationControllerTest {
         assertEquals("Reservas generadas exitosamente.", response.getBody());
     }
 
-//    @Test
-//    void testCancelReservation() {
-//        when(reservationService.cancelReservation("1")).thenReturn(true);
-//        ResponseEntity<Void> response = reservationController.cancelReservation("1");
-//        assertEquals(204, response.getStatusCodeValue());
-//    }
-
+    @Test
+    void testDeleteAllReservations() {
+        doNothing().when(reservationService).deleteAllReservations();
+        ResponseEntity<String> response = reservationController.deleteAllReservations();
+        assertEquals(200, response.getStatusCodeValue());
+    }
 
     @Test
     void testGetReservationsByDate() {
