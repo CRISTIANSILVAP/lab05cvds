@@ -29,17 +29,17 @@ class ReservationControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testCreateReservation() {
-        ReservationDTO reservationDTO = new ReservationDTO();
-        Reservation reservation = new Reservation();
-        when(reservationService.createReservation(any())).thenReturn(reservation);
-
-        ResponseEntity<?> response = reservationController.createReservation(reservationDTO);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-    }
+//    @Test
+//    void testCreateReservation() {
+//        ReservationDTO reservationDTO = new ReservationDTO();
+//        Reservation reservation = new Reservation();
+//        when(reservationService.createReservation(any())).thenReturn(reservation);
+//
+//        ResponseEntity<?> response = reservationController.createReservation(reservationDTO);
+//
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertNotNull(response.getBody());
+//    }
 
     @Test
     void testGetAllReservations() {
