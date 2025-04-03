@@ -98,7 +98,7 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username,@RequestHeader("Authorization") String token) {
         HashMap<String, String> response;
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByUsername(username));
@@ -116,7 +116,7 @@ public class UserController {
      * @return ResponseEntity con confirmación de eliminación o un error en caso de fallo.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) {
+    public ResponseEntity<?> deleteUser(@PathVariable String id,@RequestHeader("Authorization") String token) {
         HashMap<String, String> response;
         try {
             userService.deleteUser(id);
@@ -170,7 +170,7 @@ public class UserController {
         }
     }
     @GetMapping("/role/{username}")
-    public ResponseEntity<String> getUserRole(@PathVariable String username) {
+    public ResponseEntity<String> getUserRole(@PathVariable String username,@RequestHeader("Authorization") String token) {
         try {
             String role = userService.getRoleByUsername(username);
             return ResponseEntity.ok(role);

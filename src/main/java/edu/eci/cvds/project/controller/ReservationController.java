@@ -83,7 +83,7 @@ public class ReservationController {
      * @return Lista de reservas.
      */
     @GetMapping("/all")
-    public List<Reservation> getAllReservations() {
+    public List<Reservation> getAllReservations(@RequestHeader("Authorization") String token) {
         return reservationService.getAllReservations();
     }
 
@@ -106,8 +106,8 @@ public class ReservationController {
      * @return Un mapa donde la clave es la fecha y el valor es el número de reservas en esa fecha.
      */
     @GetMapping("/by-date")
-    public ResponseEntity<Map<LocalDate, Long>> getReservationsByDate() {
-        List<Reservation> reservations = getAllReservations();
+    public ResponseEntity<Map<LocalDate, Long>> getReservationsByDate(@RequestHeader("Authorization") String token) {
+        List<Reservation> reservations = getAllReservations(token);
         Map<LocalDate, Long> reservationsByDate = new HashMap<>();
 
         for (Reservation r : reservations) {
@@ -128,9 +128,9 @@ public class ReservationController {
     @GetMapping("/by-lab-and-date")
     public ResponseEntity<Map<String, Long>> getReservationsByLabAndDate(
             @RequestParam LocalDate startDate,
-            @RequestParam LocalDate endDate) {
+            @RequestParam LocalDate endDate,@RequestHeader("Authorization") String token) {
 
-        List<Reservation> reservations = getAllReservations();
+        List<Reservation> reservations = getAllReservations(token);
         Map<String, Long> reservationsByLab = new HashMap<>();
 
         for (Reservation r : reservations) {
@@ -150,8 +150,8 @@ public class ReservationController {
      * @return Un mapa donde la clave es el nivel de prioridad y el valor es el promedio de reservas con esa prioridad.
      */
     @GetMapping("/average-by-priority")
-    public ResponseEntity<Map<Integer, Double>> getAverageReservationsByPriority() {
-        List<Reservation> reservations = getAllReservations();
+    public ResponseEntity<Map<Integer, Double>> getAverageReservationsByPriority(@RequestHeader("Authorization") String token) {
+        List<Reservation> reservations = getAllReservations(token);
         Map<Integer, Long> countByPriority = new HashMap<>();
 
         for (Reservation r : reservations) {
@@ -177,8 +177,8 @@ public class ReservationController {
      * @return Un mapa donde la clave es el nombre del laboratorio y el valor es el número de reservas en ese laboratorio.
      */
     @GetMapping("/by-lab")
-    public ResponseEntity<Map<String, Long>> getReservationsByLab() {
-        List<Reservation> reservations = getAllReservations();
+    public ResponseEntity<Map<String, Long>> getReservationsByLab(@RequestHeader("Authorization") String token) {
+        List<Reservation> reservations = getAllReservations(token);
         Map<String, Long> reservationsByLab = new HashMap<>();
 
         for (Reservation r : reservations) {

@@ -30,7 +30,7 @@ public class LaboratoryController {
      * @return Lista de laboratorios.
      */
     @GetMapping("/all")
-    public List<Laboratory> getAllLaboratories() {
+    public List<Laboratory> getAllLaboratories(@RequestHeader("Authorization") String token) {
         return laboratoryService.getAllLaboratories();
     }
 
@@ -50,7 +50,7 @@ public class LaboratoryController {
     }
 
     @GetMapping("name/{name}")
-    public ResponseEntity<Laboratory> getLaboratoryByName(@PathVariable String name) {
+    public ResponseEntity<Laboratory> getLaboratoryByName(@PathVariable String name,@RequestHeader("Authorization") String token) {
         Laboratory laboratory = laboratoryService.getLaboratoryByName(name);
         if (laboratory != null) {
             return ResponseEntity.ok(laboratory);
@@ -99,7 +99,7 @@ public class LaboratoryController {
      */
     @GetMapping("avaiable")
     public ResponseEntity<List<String>> checkLaboratoriesAvailability( @RequestParam("startDateTime") String dateTimeStartString,
-                                                                           @RequestParam("endDateTime") String dateTimeEndString)  {
+                                                                           @RequestParam("endDateTime") String dateTimeEndString,@RequestHeader("Authorization") String token)  {
         LocalDateTime dateStartTime = LocalDateTime.parse(dateTimeStartString);
         LocalDateTime dateEndTime = LocalDateTime.parse(dateTimeEndString);
         List<Laboratory> laboratories = laboratoryService.getAllLaboratories();
