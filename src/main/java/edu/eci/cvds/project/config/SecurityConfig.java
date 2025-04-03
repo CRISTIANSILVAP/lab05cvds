@@ -32,7 +32,7 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/**").permitAll()
+                .requestMatchers("/api/authenticate/login").permitAll() // Solo permite sin autenticación el login
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
